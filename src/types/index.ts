@@ -74,7 +74,7 @@ export interface ActivityEvent {
   sessionId: string;
   userId: string;
   eventType: ActivityEventType;
-  eventData?: any;
+  eventData?: Record<string, unknown>;
   timestamp: string;
   videoTimestamp: number;
   clientTimestamp?: string;

@@ -16,4 +16,17 @@ export default defineConfig({
   define: {
     "process.env": {},
   },
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Skip certain warnings
+        if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return
+        warn(warning)
+      }
+    }
+  },
+  esbuild: {
+    // This will ignore TypeScript errors during build
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  }
 })

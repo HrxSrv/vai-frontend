@@ -106,11 +106,6 @@ const LoginPage: React.FC = () => {
   };
 
   // Fallback manual login trigger
-  const handleManualGoogleLogin = () => {
-    if (window.google) {
-      window.google.accounts.id.prompt();
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-black-50 to-grey-100 dark:from-black  dark:to-black-800 flex items-center justify-center p-4">

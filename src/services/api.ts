@@ -7,7 +7,7 @@ class ApiService {
 
   constructor() {
     this.api = axios.create({
-      baseURL: import.meta.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api',
+      baseURL: 'https://vai-backend.onrender.com/api',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',

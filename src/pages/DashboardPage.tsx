@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/buttonSC';
 import { Separator } from '@/components/ui/separator';
 import SessionsList from '../components/dashboard/SessionsList';
 import { getAnalytics } from '../services/aiService';
-import { getConversations } from '@/services/conversationService';
+
 import { useNavigate } from 'react-router-dom';
 interface Analytics {
   totalConversations: number;

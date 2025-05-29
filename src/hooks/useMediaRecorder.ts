@@ -107,23 +107,26 @@ export const useMediaRecorder = (): MediaRecorderHook => {
       await logActivity('camera_permission_granted');
       await logActivity('microphone_permission_granted');
       
-    } catch (err: any) {
-      console.error('Error starting recording:', err);
-      
-      let errorMessage = 'Failed to start recording';
-      
-      if (err.name === 'NotAllowedError') {
-        errorMessage = 'Camera and microphone access denied. Please allow permissions.';
-        await logActivity('camera_permission_denied');
-        await logActivity('microphone_permission_denied');
-      } else if (err.name === 'NotFoundError') {
-        errorMessage = 'No camera or microphone found.';
-      } else if (err.name === 'NotReadableError') {
-        errorMessage = 'Camera or microphone is already in use.';
-      }
-      
-      setError(errorMessage);
+    } catch (err: unknown) {
+  console.error('Error starting recording:', err);
+         
+  let errorMessage = 'Failed to start recording';
+         
+  if (err && typeof err === 'object' && 'name' in err) {
+    const error = err as { name: string };
+    if (error.name === 'NotAllowedError') {
+      errorMessage = 'Camera and microphone access denied. Please allow permissions.';
+      await logActivity('camera_permission_denied');
+      await logActivity('microphone_permission_denied');
+    } else if (error.name === 'NotFoundError') {
+      errorMessage = 'No camera or microphone found.';
+    } else if (error.name === 'NotReadableError') {
+      errorMessage = 'Camera or microphone is already in use.';
     }
+  }
+         
+  setError(errorMessage);
+}
   };
 
   const stopRecording = async (): Promise<Blob | null> => {

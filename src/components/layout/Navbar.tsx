@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/buttonSC';
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 import {
@@ -29,7 +27,17 @@ import { useAuth } from '@/context/AuthContext';
 //   isAuthenticated: true,
 //   logout: () => console.log('Logout clicked')
 // });
+type NavItem = {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+  authRequired?: boolean;
+};
 
+type NavLinkProps = {
+  item: NavItem;
+  mobile?: boolean;
+};
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { user, isAuthenticated, logout } = useAuth();
@@ -56,7 +64,7 @@ const Navbar: React.FC = () => {
     },
   ];
 
-  const NavLink = ({ item, mobile = false }) => {
+ const NavLink: React.FC<NavLinkProps> = ({ item, mobile = false }) => {
     const isActive = location.pathname === item.path;
     
     return (

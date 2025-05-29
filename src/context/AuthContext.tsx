@@ -1,7 +1,13 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { AuthState } from '../types';
-import { getStoredAuth, storeAuth, clearAuth } from '../utils/storage';
-import api from '../services/api';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { AuthState } from "../types";
+import { getStoredAuth, storeAuth, clearAuth } from "../utils/storage";
+import api from "../services/api";
 
 interface AuthContextType extends AuthState {
   loginWithGoogle: (credential: string) => Promise<void>;
@@ -23,7 +29,9 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [authState, setAuthState] = useState<AuthState>(initialState);
 
   useEffect(() => {
@@ -33,19 +41,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
           api.setAuthToken(storedAuth.token);
           // Validate token with backend
-          const response = await api.get('/auth/validate');
+          const response = await api.get("/auth/validate");
           if (response.data.success) {
             setAuthState({
-              user: storedAuth.user,
+              user: storedAuth.user ?? null,
               token: storedAuth.token,
               isAuthenticated: true,
               isLoading: false,
             });
           } else {
-            throw new Error('Token validation failed');
+            throw new Error("Token validation failed");
           }
         } catch (error) {
-          console.log('Token validation failed:', error);
+          console.log("Token validation failed:", error);
           clearAuth();
           api.clearAuthToken();
           setAuthState({ ...initialState, isLoading: false });
@@ -59,10 +67,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const loginWithGoogle = async (credential: string) => {
     try {
-      const response = await api.post('/auth/google', { credential });
-      
+      const response = await api.post("/auth/google", { credential });
+
       if (!response.data.success) {
-        throw new Error(response.data.error || 'Login failed');
+        throw new Error(response.data.error || "Login failed");
       }
 
       const { token, user } = response.data;
@@ -72,23 +80,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isAuthenticated: true,
         isLoading: false,
       };
-      
+
       api.setAuthToken(token);
       storeAuth(authData);
       setAuthState(authData);
-    } catch (error: any) {
+    } catch (error: unknown) {
       clearAuth();
       api.clearAuthToken();
       setAuthState({ ...initialState, isLoading: false });
-      
+
       // Provide more specific error messages
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      } else if (error.message) {
-        throw new Error(error.message);
-      } else {
-        throw new Error('Google login failed. Please try again.');
+      if (error && typeof error === "object" && "response" in error) {
+        const apiError = error as { response?: { data?: { error?: string } } };
+        if (apiError.response?.data?.error) {
+          throw new Error(apiError.response.data.error);
+        }
       }
+
+      if (error instanceof Error && error.message) {
+        throw new Error(error.message);
+      }
+      throw new Error('Google login failed. Please try again.');
     }
   };
 
@@ -96,10 +108,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       // Call backend logout if token exists
       if (authState.token) {
-        await api.post('/auth/logout');
+        await api.post("/auth/logout");
       }
     } catch (error) {
-      console.log('Logout API call failed:', error);
+      console.log("Logout API call failed:", error);
       // Continue with local logout even if API fails
     } finally {
       api.clearAuthToken();

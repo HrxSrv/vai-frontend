@@ -49,7 +49,7 @@ interface Session {
 }
 interface ChatWindowProps {
   sessionId?: string;
-  initialSessionData?: any; // Replace `any` with proper type if available
+  initialSessionData?: Record<string, unknown>; // Replace `any` with proper type if available
 }
 interface ConversationData {
   metadata: {
@@ -71,25 +71,6 @@ interface ConversationData {
   id: string
 }
 
-interface SessionData {
-  sessionInfo: {
-    success: boolean
-    conversations: ConversationData[]
-    session: {
-      id: string
-      status: string
-      startedAt: string
-      endedAt: string
-      conversationCount: number
-    }
-    pagination: {
-      page: number
-      limit: number
-      total: number
-      pages: number
-    }
-  }
-}
 // Dummy session data
 const dummySessions: Session[] = [
   {
@@ -158,7 +139,6 @@ const [conversationsLoaded, setConversationsLoaded] = useState(false)
     stopRecording,
     isRecording,
     recordingTime,
-    videoRef: mediaRecorderVideoRef,
     error: recordingError,
   } = useMediaRecorder()
 
@@ -169,7 +149,7 @@ const [conversationsLoaded, setConversationsLoaded] = useState(false)
   const convertConversationsToMessages = (conversations: ConversationData[]): ChatMessage[] => {
   const messages: ChatMessage[] = []
   
-  conversations.forEach((conv, index) => {
+  conversations.forEach((conv) => {
     // Add user message
     messages.push({
       id: `user-${conv.id}`,
@@ -198,14 +178,28 @@ const loadExistingConversations = async (sessionId: string) => {
     setIsLoadingConversations(true)
     const response = await getConversations(sessionId)
     
-    if (response.sessionInfo.success && response.sessionInfo.conversations.length > 0) {
-      const existingMessages = convertConversationsToMessages(response.sessionInfo.conversations)
+    if (response?.success && response.conversations?.length > 0) {
+      const existingMessages = convertConversationsToMessages(response.conversations)
       setMessages(existingMessages)
-      setChatStarted(true) // Show chat interface since there are existing messages
+      setChatStarted(true)
+      setConversationsLoaded(true)
+      
+      // Initialize session when loading existing conversations
+      if (!currentSession && !sessionInitialized) {
+        try {
+          await startSession()
+          setSessionInitialized(true)
+        } catch (error) {
+          console.error("Failed to initialize session:", error)
+        }
+      }
+    } else {
+      console.log("No conversations found or unexpected response structure:", response)
       setConversationsLoaded(true)
     }
   } catch (error) {
     console.error("Failed to load conversations:", error)
+    setConversationsLoaded(true)
   } finally {
     setIsLoadingConversations(false)
   }
@@ -436,7 +430,9 @@ const loadExistingConversations = async (sessionId: string) => {
 
         await logActivity("error_occurred", {
           context: "api_call",
-          error: apiError.toString(),
+          error:  apiError instanceof Error
+      ? apiError.toString()
+      : String(apiError),
         })
       }
     } catch (error) {
@@ -468,7 +464,7 @@ const loadExistingConversations = async (sessionId: string) => {
         if (recordedBlob) {
           const fileName = `session_${currentSession.id}_${Date.now()}.webm`
 
-          const presignedData = await getPresignedUrl(currentSession.id, "video/webm", recordedBlob.size, fileName)
+          const presignedData = await getPresignedUrl(currentSession.id, "video/webm", recordedBlob.size)
 
           await logActivity("upload_start")
 

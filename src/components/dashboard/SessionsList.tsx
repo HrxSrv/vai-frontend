@@ -60,9 +60,14 @@ const SessionsList: React.FC<SessionsListProps> = ({ onSessionSelect }) => {
         }
         
         setHasMore(response.pagination.page < response.pagination.pages);
-      } catch (err: any) {
-        console.error('Error fetching sessions:', err);
-        setError(err.message || 'Failed to load sessions');
+      } catch (err) {
+  console.error('Error fetching sessions:', err);
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError(String(err));
+  }
+
       } finally {
         setIsLoading(false);
       }
@@ -90,10 +95,15 @@ const SessionsList: React.FC<SessionsListProps> = ({ onSessionSelect }) => {
       
       await deleteSession(sessionId);
       setSessions(prev => prev.filter(session => session.id !== sessionId));
-    } catch (err: any) {
-      console.error('Error deleting session:', err);
-      setError(err.message || 'Failed to delete session');
-    } finally {
+    }  catch (err) {
+  console.error('Error fetching sessions:', err);
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError(String(err));
+  }
+}
+ finally {
       setDeletingSession(null);
     }
   };
@@ -206,7 +216,7 @@ const SessionsList: React.FC<SessionsListProps> = ({ onSessionSelect }) => {
                       #{session.id?.slice(-6) || 'N/A'}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {formatDate ? formatDate(session.startedAt || session.createdAt) : formatSessionDate(session.startedAt || session.createdAt)}
+                      {formatDate ? formatDate(session.startedAt || new Date().toISOString() ) : formatSessionDate(session.startedAt|| new Date().toISOString() )}
                     </span>
                   </div>
                   
@@ -218,7 +228,7 @@ const SessionsList: React.FC<SessionsListProps> = ({ onSessionSelect }) => {
                     </span>
                     <span className="flex items-center gap-1">
                       <MessageSquare className="h-3 w-3" />
-                      {session.conversationCount || session.messageCount || 1}
+                      {session.conversationCount || 1}
                     </span>
                     <span className="flex items-center gap-1">
                       <HardDrive className="h-3 w-3" />

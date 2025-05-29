@@ -7,7 +7,7 @@ interface SessionContextType {
   isRecording: boolean;
   startSession: () => Promise<Session>;
   endSession: (recordingUrl?: string, recordingSize?: number) => Promise<void>;
-  logActivity: (eventType: ActivityEventType, eventData?: any, videoTimestamp?: number) => Promise<void>;
+  logActivity: (eventType: ActivityEventType, eventData?:  Record<string, unknown>, videoTimestamp?: number) => Promise<void>;
 }
 
 const SessionContext = createContext<SessionContextType>({
@@ -103,7 +103,7 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const logActivity = async (
     eventType: ActivityEventType,
-    eventData: any = {},
+    eventData:  Record<string, unknown> = {},
     videoTimestamp?: number
   ) => {
     if (!currentSession) {
