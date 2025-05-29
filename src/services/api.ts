@@ -4,10 +4,10 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 class ApiService {
   private api: AxiosInstance;
   private authToken: string | null = null;
-
+// https://vai-backend.onrender.com/api
   constructor() {
     this.api = axios.create({
-      baseURL: 'https://vai-backend.onrender.com/api',
+      baseURL: 'http://localhost:3001/api',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
