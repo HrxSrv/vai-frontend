@@ -7,7 +7,7 @@ class ApiService {
 // https://vai-backend.onrender.com/api
   constructor() {
     this.api = axios.create({
-      baseURL: 'http://localhost:3001/api',
+      baseURL: 'https://vai-backend.onrender.com/api',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
