@@ -14,8 +14,13 @@ import { Button } from '@/components/ui/buttonSC';
 import { Separator } from '@/components/ui/separator';
 import SessionsList from '../components/dashboard/SessionsList';
 import { getAnalytics } from '../services/aiService';
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useNavigate } from 'react-router-dom';
+// import { BackgroundBeams } from '@/components/ui/background-beams';
 interface Analytics {
   totalConversations: number;
   averageResponseTime: number;
@@ -93,6 +98,7 @@ const DashboardPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
       {/* Header Section */}
+      {/* <BackgroundBeams/> */}
       <div className="flex flex-col space-y-2">
         <div className="flex items-center justify-between">
           <div>
@@ -101,7 +107,7 @@ const DashboardPage: React.FC = () => {
               Welcome back, {user?.name}
             </p>
           </div>
-          <Badge variant="secondary" className="text-sm">
+          <Badge variant="secondary" className="text-sm hidden md:inline-flex">
             <Users className="h-4 w-4 mr-1" />
             Active User
           </Badge>
@@ -228,15 +234,25 @@ const DashboardPage: React.FC = () => {
                 </Badge>
               </div>
               <Separator />
-              <div className="text-center">
+                 <div className="text-center">
+               <Popover>
+                <PopoverTrigger>
+                  {" "}
+
                 <Button variant="ghost" size="sm" className="w-full">
                   View Detailed Analytics
                 </Button>
+                </PopoverTrigger>
+                <PopoverContent>Coming Soon....</PopoverContent>
+              </Popover>
               </div>
+              
             </CardContent>
           </Card>
-
-          <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 border-red-200 dark:border-red-800">
+           <Popover>
+                <PopoverTrigger>
+                  {" "}
+                  <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 border-red-200 dark:border-red-800">
             <CardHeader>
               <CardTitle className="text-base text-red-900 dark:text-red-100">
                 Upgrade to Pro
@@ -251,6 +267,10 @@ const DashboardPage: React.FC = () => {
               </Button>
             </CardContent>
           </Card>
+                </PopoverTrigger>
+                <PopoverContent>Coming Soon....</PopoverContent>
+              </Popover>
+          
         </div>
       </div>
     </div>

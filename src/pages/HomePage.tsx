@@ -34,7 +34,8 @@ import { Badge } from "@/components/ui/badge";
 import DotBackgroundDemo from "@/components/ui/dot-bacground";
 import { CardDemo } from "@/components/ui/ai-card";
 import { useAuth } from "@/context/AuthContext";
-import { BackgroundBeams } from "@/components/ui/background-beams";
+import  {BackgroundBeams}  from "@/components/ui/background-beams";
+import { GridSmallBackgroundDemo } from "@/components/ui/grid-background-demo";
 // Mock auth for demo
 
 const HomePage: React.FC = () => {
@@ -303,73 +304,81 @@ const HomePage: React.FC = () => {
 
       {/* Final CTA Section */}
       <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="space-y-4 sm:space-y-6 md:space-y-8">
-            <Badge
-              variant="secondary"
-              className="mb-2 sm:mb-4 bg-white/20 text-white border-white/20"
+<div className="relative min-h-screen">
+  {/* Grid Background Layer */}
+  <div className="absolute inset-0">
+    <GridSmallBackgroundDemo />
+  </div>
+  
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10 dark:via-black/5 dark:to-black/10"></div>
+  
+  {/* Content Layer */}
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+    <div className="space-y-4 sm:space-y-6 md:space-y-8">
+      <Badge 
+        variant="secondary" 
+        className="mb-2 sm:mb-4 bg-white/30 dark:bg-white/20 text-gray-800 dark:text-white border-white/40 dark:border-white/20"
+      >
+        <Heart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+        Join the Voice AI Revolution
+      </Badge>
+      
+      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white">
+        Ready to transform <br className="hidden sm:block" />
+        <span className="sm:hidden"> </span>your AI experience?
+      </h2>
+      
+      <p className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-white/90 max-w-3xl mx-auto leading-relaxed px-4">
+        Join thousands of professionals already using voice AI to boost productivity, enhance creativity, and streamline their workflows.
+      </p>
+      
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-6 sm:pt-8">
+        <Button 
+          size="lg" 
+          variant="secondary" 
+          className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg group"
+        >
+          <User className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+          {isAuthenticated ? "Go to Dashboard" : "Start Free Today"}
+          <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+        </Button>
+        
+        <Popover>
+          <PopoverTrigger>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg border-gray-300 dark:border-white/30 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-700 dark:text-white"
             >
-              <Heart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              Join the Voice AI Revolution
-            </Badge>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white">
-              Ready to transform
-              <br className="hidden sm:block" />
-              <span className="sm:hidden"> </span>your AI experience?
-            </h2>
-
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-white/90 max-w-3xl mx-auto leading-relaxed px-4">
-              Join thousands of professionals already using voice AI to boost
-              productivity, enhance creativity, and streamline their workflows.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-6 sm:pt-8">
-              <Button
-                size="lg"
-                variant="secondary"
-                className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg group"
-              >
-                <User className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                {isAuthenticated ? "Go to Dashboard" : "Start Free Today"}
-                <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Popover>
-                <PopoverTrigger>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg border-white/30 hover:bg-white/10"
-                  >
-                    <Headphones className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                    Schedule Demo
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent>Coming Soon....</PopoverContent>
-              </Popover>
-            </div>
-
-            {/* Features List */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-6 pt-8 sm:pt-12 text-gray-700 dark:text-white/90">
-              <div className="flex items-center justify-center space-x-2">
-                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
-                <span className="text-sm sm:text-base">Free 14-day trial</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2">
-                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
-                <span className="text-sm sm:text-base">
-                  No credit card required
-                </span>
-              </div>
-              <div className="flex items-center justify-center space-x-2">
-                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
-                <span className="text-sm sm:text-base">Cancel anytime</span>
-              </div>
-            </div>
-          </div>
+              <Headphones className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+              Schedule Demo
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>Coming Soon....</PopoverContent>
+        </Popover>
+      </div>
+      
+      {/* Features List */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-6 pt-8 sm:pt-12 text-gray-700 dark:text-white/90">
+        <div className="flex items-center justify-center space-x-2">
+          <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+          <span className="text-sm sm:text-base">Free 14-day trial</span>
         </div>
+        <div className="flex items-center justify-center space-x-2">
+          <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+          <span className="text-sm sm:text-base">No credit card required</span>
+        </div>
+        <div className="flex items-center justify-center space-x-2">
+          <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+          <span className="text-sm sm:text-base">Cancel anytime</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
       </section>
+      
     </div>
   );
 };
