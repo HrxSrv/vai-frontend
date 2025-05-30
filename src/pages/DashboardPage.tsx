@@ -249,10 +249,7 @@ const DashboardPage: React.FC = () => {
               
             </CardContent>
           </Card>
-           <Popover>
-                <PopoverTrigger>
-                  {" "}
-                  <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 border-red-200 dark:border-red-800">
+          <Card className="text-center bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 border-red-200 dark:border-red-800">
             <CardHeader>
               <CardTitle className="text-base text-red-900 dark:text-red-100">
                 Upgrade to Pro
@@ -262,14 +259,17 @@ const DashboardPage: React.FC = () => {
               <p className="text-sm text-red-700 dark:text-red-200 mb-4">
                 Get unlimited conversations and priority support.
               </p>
+           <Popover >
+                <PopoverTrigger >
+                  {" "}
               <Button size="sm" className="w-full bg-red-600 hover:bg-red-700">
                 Upgrade Now
               </Button>
-            </CardContent>
-          </Card>
                 </PopoverTrigger>
                 <PopoverContent>Coming Soon....</PopoverContent>
               </Popover>
+            </CardContent>
+          </Card>
           
         </div>
       </div>

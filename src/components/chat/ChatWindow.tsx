@@ -685,7 +685,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sessionId }) => {
   return (
     <div className="flex h-screen bg-background w-full">
       {/* Sidebar */}
-
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Chat Header */}

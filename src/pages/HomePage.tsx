@@ -37,7 +37,7 @@ import { useAuth } from "@/context/AuthContext";
 import  {BackgroundBeams}  from "@/components/ui/background-beams";
 import { GridSmallBackgroundDemo } from "@/components/ui/grid-background-demo";
 // Mock auth for demo
-
+import { Link } from "react-router-dom"; // Adjust based on your routing setup
 const HomePage: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
@@ -114,7 +114,7 @@ const HomePage: React.FC = () => {
                 className="group w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg"
               >
                 <Mic className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                {isAuthenticated ? "Start Chatting" : "Start Free Trial"}
+                <Link to ="/chat">{isAuthenticated ? "Start Chatting" : "Login to Chat"}</Link>
                 <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Popover>
@@ -129,7 +129,7 @@ const HomePage: React.FC = () => {
                     Watch Demo
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent>Coming Soon....</PopoverContent>
+                <PopoverContent>Go to <a href="https://youtu.be/j61KV2f3pAo" target="_blank">Youtube</a></PopoverContent>
               </Popover>
             </div>
 
