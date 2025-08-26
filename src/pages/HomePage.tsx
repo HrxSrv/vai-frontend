@@ -8,7 +8,6 @@ import {
   User,
   Shield,
   ArrowRight,
-  Play,
   Sparkles,
   Zap,
   Heart,
@@ -125,11 +124,10 @@ const HomePage: React.FC = () => {
                     size="lg"
                     className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg group"
                   >
-                    <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                    Watch Demo
+                    Architecture
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent>Go to <a href="https://youtu.be/j61KV2f3pAo" target="_blank">Youtube</a></PopoverContent>
+                <PopoverContent>View <a href="https://drive.google.com/file/d/19VpZ0dB24H01WH9MwV-nf5L15QWnRWAE/view?usp=drivesdk" target="_blank">Diagram</a></PopoverContent>
               </Popover>
             </div>
 
